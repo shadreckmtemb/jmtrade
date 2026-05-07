@@ -3,73 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Message Sent | JM Trade Advisory</title>
+    <title>Message Sent | JM Trade Advisory & Consulting</title>
+    <meta name="description" content="Your message has been sent successfully. We'll get back to you within 24 hours.">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Additional thank-you specific styles (matching your theme) -->
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0a2f44 0%, #1b5a6e 100%);
+        /* Full-height thank you section - matches your glass morphism */
+        .thankyou-section {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            background: var(--bg);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .thankyou-section::before {
+            content: "";
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.08), transparent 70%);
+            top: -200px;
+            left: -200px;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .thankyou-section::after {
+            content: "";
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.05), transparent 70%);
+            bottom: -200px;
+            right: -200px;
+            z-index: 0;
+            pointer-events: none;
         }
         
         .thankyou-card {
-            background: white;
-            max-width: 500px;
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
             padding: 3rem;
-            border-radius: 24px;
+            max-width: 500px;
+            width: 90%;
             text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 2;
             animation: fadeInUp 0.6s ease-out;
+            transition: var(--transition-base);
         }
         
-        .checkmark {
+        .thankyou-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--border-light);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .checkmark-circle {
             width: 80px;
             height: 80px;
-            background: #25D366;
+            background: var(--gradient-primary);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 1.5rem;
-            font-size: 3rem;
-            color: white;
+            animation: scaleIn 0.5s ease-out 0.2s both;
         }
         
-        h1 {
-            color: #0a2f44;
+        .checkmark-circle svg {
+            width: 45px;
+            height: 45px;
+            stroke: white;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+        }
+        
+        .thankyou-card h1 {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             margin-bottom: 1rem;
+            font-size: 2rem;
         }
         
-        p {
-            color: #666;
+        .thankyou-card p {
+            color: var(--muted);
             line-height: 1.6;
             margin-bottom: 1rem;
         }
         
-        .btn {
-            display: inline-block;
-            background: #f4c542;
-            color: #0a2f44;
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 1rem;
-            transition: all 0.3s ease;
+        .thankyou-card strong {
+            color: var(--text-light);
         }
         
-        .btn:hover {
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+        
+        .btn-whatsapp {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition-base);
+        }
+        
+        .btn-whatsapp:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(244, 197, 66, 0.3);
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3);
+        }
+        
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition-base);
+        }
+        
+        .btn-back:hover {
+            border-color: var(--accent);
+            background: rgba(56, 189, 248, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
         
         @keyframes fadeInUp {
@@ -83,29 +176,46 @@
             }
         }
         
-        .whatsapp {
-            display: inline-block;
-            background: #25D366;
-            color: white;
-            padding: 0.8rem 1.5rem;
-            border-radius: 50px;
-            text-decoration: none;
-            margin-top: 1rem;
-            margin-left: 0.5rem;
+        @media (max-width: 768px) {
+            .thankyou-card {
+                padding: 2rem;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+            
+            .btn-whatsapp,
+            .btn-back {
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="thankyou-card">
-        <div class="checkmark">✓</div>
-        <h1>Message Sent!</h1>
-        <p>Thank you for reaching out to JM Trade Advisory & Consulting.</p>
-        <p>I'll review your message and get back to you within <strong>24 hours</strong>.</p>
-        <p>For urgent matters, reach out on WhatsApp:</p>
-        <div>
-            <a href="https://wa.me/243816099433" class="whatsapp" target="_blank">💬 WhatsApp Me</a>
+    <div class="thankyou-section">
+        <div class="thankyou-card">
+            <div class="checkmark-circle">
+                <svg viewBox="0 0 24 24">
+                    <polyline points="20 6 9 17 4 12" />
+                </svg>
+            </div>
+            <h1>Message Sent!</h1>
+            <p>Thank you for reaching out to <strong>JM Trade Advisory & Consulting</strong>.</p>
+            <p>I'll review your message and get back to you within <strong style="color: var(--accent);">24 hours</strong>.</p>
+            <p>For urgent matters, reach out on WhatsApp:</p>
+            <div class="btn-group">
+                <a href="https://wa.me/243816099433" class="btn-whatsapp" target="_blank">
+                    💬 WhatsApp (DRC)
+                </a>
+                <a href="https://wa.me/61480510372" class="btn-whatsapp" target="_blank" style="background: linear-gradient(135deg, #128C7E, #075E54);">
+                    💬 WhatsApp (AUS)
+                </a>
+            </div>
+            <div style="margin-top: 1.5rem;">
+                <a href="index.html" class="btn-back">← Back to Home</a>
+            </div>
         </div>
-        <a href="index.html" class="btn">← Back to Home</a>
     </div>
 </body>
 </html>
