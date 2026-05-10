@@ -13,8 +13,70 @@
     <meta property="og:description" content="Expert cross-border trade guidance between Zambia and DRC">
     <meta property="og:type" content="website">
     
+    <!-- Favicon / Tab Icon - Logo displayed on browser tab -->
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <link rel="apple-touch-icon" href="images/logo.png">
+    
     <!-- Styles -->
     <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        /* Additional inline styles to ensure logo displays properly in header and tab */
+        .logo-with-image {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .logo-img {
+            height: 55px;
+            width: auto;
+            display: block;
+            transition: transform 0.2s ease;
+        }
+        
+        .logo-img:hover {
+            transform: scale(1.02);
+        }
+        
+        .logo-text h1 {
+            font-size: 1.4rem;
+            margin-bottom: 0.2rem;
+            line-height: 1.2;
+        }
+        
+        .logo-text span {
+            font-size: 0.75rem;
+            color: var(--accent, #f4c542);
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .logo-img {
+                height: 42px;
+            }
+            .logo-text h1 {
+                font-size: 1rem;
+            }
+            .logo-with-image {
+                gap: 0.5rem;
+            }
+        }
+        
+        /* Fix for existing header structure */
+        .logo a {
+            display: inline-block;
+            color: inherit;
+            text-decoration: none;
+        }
+        
+        .header-flex .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+    </style>
 </head>
 <body>
 
@@ -22,8 +84,12 @@
 <header>
     <div class="container header-flex">
         <div class="logo">
-            <a href="#home">JM Trade Advisory & Consulting</a>
-            <span>Zambia ↔ DRC Cross-Border Specialists</span>
+            <!-- Logo image added here (visible in header) -->
+            <img src="images/logo.png" alt="JM Trade Advisory & Consulting Logo" class="logo-img" onerror="this.style.display='none'">
+            <div class="logo-text">
+                <a href="#home">JM Trade Advisory & Consulting</a>
+                <span>Zambia ↔ DRC Cross-Border Specialists</span>
+            </div>
         </div>
         <nav>
             <ul>
@@ -169,7 +235,7 @@
         <!-- Additional Credentials -->
         <div class="stats-grid credentials-stats">
             <div class="stat-box">
-                <h3>Community Services and Youth Support & TAFE Australia<</h3>
+                <h3>Community Services and Youth Support at TAFE Australia</h3>
                 
                 <small>Certified training in community development</small>
             </div>
@@ -440,7 +506,8 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         if (target) {
             target.scrollIntoView({ behavior: 'smooth' });
             // Close mobile menu if open
-            document.querySelector('nav').classList.remove('active');
+            const nav = document.querySelector('nav');
+            if (nav && nav.classList) nav.classList.remove('active');
         }
     });
 });
