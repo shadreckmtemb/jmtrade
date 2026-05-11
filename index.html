@@ -76,6 +76,36 @@
             align-items: center;
             gap: 0.8rem;
         }
+
+        /* Success message styling */
+        .form-success {
+            background: #10b981;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            text-align: center;
+            display: none;
+        }
+        
+        .form-error {
+            background: #ef4444;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            text-align: center;
+            display: none;
+        }
+        
+        .form-group.hidden {
+            display: none;
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -394,7 +424,7 @@
                 <div class="contact-card">
                     <div>
                         <h3>Email</h3>
-                        <a href="mailto:Janechishakapema@gmail.com">info@jmadvisory.org</a>
+                        <a href="mailto:janechishakapema@gmail.com">info@jmadvisory.org</a>
                     </div>
                 </div>
                 <a href="https://wa.me/243816099433" class="btn-wa" target="_blank">
@@ -408,8 +438,24 @@
                 </div>
             </div>
             <div class="contact-form">
-                <form action="thank-you.html" netlify name="contact" method="POST" data-netlify="true">
-                    <input type="hidden" name="form-name" value="contact">
+                <!-- Web3Forms Integration - REPLACE YOUR_ACCESS_KEY below -->
+                <form id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+                    <!-- Replace YOUR_ACCESS_KEY with your actual key from Web3Forms.com -->
+                    <input type="hidden" name="access_key" value="7e8d6cab-cc4f-48c6-8fad-1cfbef7dee78">
+                    
+                    <!-- Form configuration -->
+                    <input type="hidden" name="subject" value="New Contact Form Submission - JM Trade Advisory">
+                    <input type="hidden" name="from_name" value="JM Trade Advisory Website">
+                    
+                    <!-- Email to send submissions to -->
+                    <input type="hidden" name="to" value="janechishakapema@gmail.com">
+                    
+                    <!-- Redirect after successful submission -->
+                    <input type="hidden" name="redirect" value="https://jmtradeadvisory.org/thank-you.html">
+                    
+                    <!-- Honeypot spam protection (keep this - it stops bots) -->
+                    <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+                    
                     <div class="form-group">
                         <input type="text" name="name" placeholder="Your Name" required>
                     </div>
@@ -422,7 +468,16 @@
                     <div class="form-group">
                         <textarea name="message" rows="5" placeholder="How can I help? (trade goal, question, or consultation request)" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Send Message →</button>
+                    
+                    <!-- Success & Error Messages -->
+                    <div id="formSuccess" class="form-success">
+                        ✓ Message sent successfully! I'll get back to you within 24 hours.
+                    </div>
+                    <div id="formError" class="form-error">
+                        ✗ Oops! Something went wrong. Please try again or contact me directly on WhatsApp.
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" id="submitBtn">Send Message →</button>
                 </form>
             </div>
         </div>
@@ -511,6 +566,73 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
+
+// Web3Forms AJAX Submission (better UX - no page reload)
+const contactForm = document.getElementById('contactForm');
+const formSuccess = document.getElementById('formSuccess');
+const formError = document.getElementById('formError');
+const submitBtn = document.getElementById('submitBtn');
+
+if (contactForm) {
+    contactForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Hide any previous messages
+        formSuccess.style.display = 'none';
+        formError.style.display = 'none';
+        
+        // Disable button and show loading state
+        submitBtn.disabled = true;
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Sending...';
+        
+        // Get form data
+        const formData = new FormData(contactForm);
+        
+        try {
+            const response = await fetch(contactForm.action, {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                // Show success message
+                formSuccess.style.display = 'block';
+                contactForm.reset();
+                
+                // Scroll to success message
+                formSuccess.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    formSuccess.style.display = 'none';
+                }, 5000);
+            } else {
+                // Show error message
+                formError.style.display = 'block';
+                console.error('Form error:', data);
+                
+                setTimeout(() => {
+                    formError.style.display = 'none';
+                }, 5000);
+            }
+        } catch (error) {
+            // Show error message
+            formError.style.display = 'block';
+            console.error('Submission error:', error);
+            
+            setTimeout(() => {
+                formError.style.display = 'none';
+            }, 5000);
+        } finally {
+            // Re-enable button
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+        }
+    });
+}
 </script>
 </body>
 </html>
